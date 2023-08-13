@@ -1,4 +1,4 @@
-const {createPool} = require('mysql');
+/*const {createPool} = require('mysql');
 
 const dbPool = createPool({
     host: 'localhost',
@@ -10,4 +10,5 @@ const dbPool = createPool({
 
 dbPool.query(`SHOW TABLES`, (err, res) => {
     console.log(res);
-});
+});*/
+
