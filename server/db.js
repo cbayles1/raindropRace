@@ -22,7 +22,8 @@ async function createUsersTable() {
         "user_id" SERIAL PRIMARY KEY,
         "raindrop_id" INT NULL,
         "wins" INT NOT NULL,
-        "display_name" VARCHAR(20) NOT NULL UNIQUE
+        "display_name" VARCHAR(20) NOT NULL UNIQUE,
+        "has_voted" BOOL NOT NULL
       );
     `;
 }
@@ -47,12 +48,42 @@ async function addRaindrop() {
 async function addUser(displayName) {
     await sql`
         INSERT INTO public.users
-        (display_name, wins)
-        VALUES (${displayName}, ${0});
+        (display_name, wins, has_voted)
+        VALUES (${displayName}, ${0}, ${0});
     `;
 }
 
+// OTHER FUNCTIONS
 
-["Bob", "Alice", "Tom", "Dick", "Harry"].map((name) => {
-    addUser(name);
-});
+async function userHasVoted(userId) { // TODO: NOT WORKING RIGHT, NOT USED FOR NOW
+    sql`
+        SELECT has_voted FROM public.users
+        WHERE user_id = ${userId};
+    `.then((result) => {
+        if (result[0]['has_voted'] == true) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+    
+}
+
+async function vote(user_id, raindrop_id) {
+    /*if (userHasVoted(user_id)) {
+        throw "You already voted!";
+    } else {
+        */await sql`
+            UPDATE public.users
+            SET raindrop_id = ${raindrop_id}, has_voted = ${true}
+            WHERE user_id = ${user_id};
+        `;
+        await sql`
+            UPDATE public.raindrops
+            SET votes = votes + 1
+            WHERE raindrop_id = ${raindrop_id};
+        `;
+    //}
+}
+
+vote(2, 1);
