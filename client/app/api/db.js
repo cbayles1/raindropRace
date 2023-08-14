@@ -1,20 +1,21 @@
 import { neon, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { users, raindrops } from '../../schema.ts';
+import { eq } from "drizzle-orm";
 
 neonConfig.fetchConnectionCache = true;
- 
 const sql = neon(process.env.DATABASE_URL);
 const db = drizzle(sql);
 
 // CREATE TABLES
 /*export async function createRaindropTable() {
     await sql`
-        CREATE TABLE public.raindrops(
-            "raindrop_id" SERIAL PRIMARY KEY,
-            "votes" INT NOT NULL,
-            "is_winner" BOOL NOT NULL,
-            "position" INT NOT NULL
+        CREATE TABLE public.raindrops (
+            raindrop_id SERIAL PRIMARY KEY,
+            votes INT NOT NULL,
+            is_winner BOOL NOT NULL,
+            position INT NOT NULL,
+            velocity INT NOT NULL
         );
     `;
 }
@@ -36,28 +37,27 @@ export async function dropRaindropTable() {
 }
 export async function dropUsersTable() {
     await sql`DROP TABLE public.users`;
-}
+}*/
 
 // ADD ENTRIES
 export async function addRaindrop() {
-    await sql`
-        INSERT INTO public.raindrops
-        (votes, is_winner, position)
-        VALUES (${0}, ${0}, ${0});
-    `;
-}*/
-
-export async function addUser(displayName) {
-    await db.insert(users).values({display_name: displayName, wins: 0, has_voted: false});
-    /*await sql`
-        INSERT INTO public.users
-        (display_name, wins, has_voted)
-        VALUES (${displayName}, ${0}, ${0});
-    `;*/
+    const raindrop_id = await db.insert(raindrops)
+        .values({votes: 0, is_winner: false, position: 0, velocity: 0})
+        .returning({raindrop_id: raindrops.raindrop_id});
+    return raindrop_id;
 }
 
-// REMOVE ENTRIES
+export async function addUser(displayName) {
+    const user_id = await db.insert(users)
+        .values({display_name: displayName, wins: 0, has_voted: false})
+        .returning({user_id: users.user_id});
+    return user_id;
+}
 
+// DELETE ENTRIES
+export async function deleteUser(userId) {
+    db.delete(users).where(eq(users.user_id, userId));
+}
 
 // RESET COLUMNS
 

@@ -7,11 +7,12 @@ const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 // CREATE TABLES
 async function createRaindropTable() {
     await sql`
-        CREATE TABLE public.raindrops(
-            "raindrop_id" SERIAL PRIMARY KEY,
-            "votes" INT NOT NULL,
-            "is_winner" BOOL NOT NULL,
-            "position" INT NOT NULL
+        CREATE TABLE public.raindrops (
+            raindrop_id SERIAL PRIMARY KEY,
+            votes INT NOT NULL,
+            is_winner BOOL NOT NULL,
+            position INT NOT NULL,
+            velocity INT NOT NULL
         );
     `;
 }
