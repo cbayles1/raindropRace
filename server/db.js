@@ -2,8 +2,7 @@ const postgres = require('postgres');
 const dotenv = require('dotenv');
 
 dotenv.config();
-const { DATABASE_URL } = process.env;
-const sql = postgres(DATABASE_URL, { ssl: 'require' });
+const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
 // CREATE TABLES
 async function createRaindropTable() {
@@ -53,22 +52,24 @@ async function addUser(displayName) {
     `;
 }
 
-// OTHER FUNCTIONS
+// REMOVE ENTRIES
 
-async function userHasVoted(userId) { // TODO: NOT WORKING RIGHT, NOT USED FOR NOW
-    sql`
-        SELECT has_voted FROM public.users
-        WHERE user_id = ${userId};
-    `.then((result) => {
-        if (result[0]['has_voted'] == true) {
-            return true;
-        } else {
-            return false;
-        }
+
+// RESET COLUMNS
+
+
+// GET DATA
+async function getRaindropPublicData(raindrop_id) {
+    await sql`
+        SELECT votes, is_winner, position FROM public.raindrops
+        WHERE raindrop_id = ${raindrop_id};
+    `
+    .then((result) => {
+        console.log(result[0]);
     });
-    
 }
 
+// POST DATA
 async function vote(user_id, raindrop_id) {
     /*if (userHasVoted(user_id)) {
         throw "You already voted!";
@@ -86,4 +87,17 @@ async function vote(user_id, raindrop_id) {
     //}
 }
 
-vote(2, 1);
+// OTHER FUNCTIONS
+async function userHasVoted(userId) { // TODO: NOT WORKING RIGHT, NOT USED FOR NOW
+    sql`
+        SELECT has_voted FROM public.users
+        WHERE user_id = ${userId};
+    `.then((result) => {
+        if (result[0]['has_voted'] == true) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+    
+}
