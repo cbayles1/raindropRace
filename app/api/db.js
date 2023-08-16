@@ -78,7 +78,33 @@ export async function vote(userId, turtleId) {
     }
 }
 
-// HELPER FUNCTIONS
+// GET DATA
+export async function getTurtlePublicData(turtleId) {  // NOT WORKING YET
+    const result = await db.select({
+        votes: turtles.votes,
+        isWinner: turtles.is_winner,
+        position: turtles.position
+        }).from(turtles).where(eq(turtles.turtle_id, turtleId));
+    try {
+        return result[0];
+    } catch {
+        throw "That turtle does not exist.";
+    }
+}
+
+export async function getAllTurtlesPublicData() {  // NOT WORKING YET
+    const result = await db.select({
+        votes: turtles.votes,
+        isWinner: turtles.is_winner,
+        position: turtles.position
+        }).from(turtles);
+    try {
+        return result;
+    } catch {
+        throw "There are no turtles right now.";
+    }
+}
+
 async function getTurtleVotes(turtleId) {
     const result = await db.select({
         votes: turtles.votes
@@ -102,15 +128,3 @@ async function getTurtleIdFromUser(userId) {
 }
 
 // RESET COLUMNS
-
-
-// GET DATA
-/*export async function getTurtlePublicData(turtle_id) {
-    await sql`
-        SELECT votes, is_winner, position FROM public.turtles
-        WHERE turtle_id = ${turtle_id};
-    `
-    .then((result) => {
-        console.log(result[0]);
-    });
-}*/
