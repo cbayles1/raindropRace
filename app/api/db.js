@@ -14,8 +14,8 @@ const db = drizzle(sql);
             turtle_id SERIAL PRIMARY KEY,
             votes INT NOT NULL,
             is_winner BOOL NOT NULL,
-            position INT NOT NULL,
-            velocity INT NOT NULL
+            position REAL NOT NULL,
+            velocity REAL NOT NULL
         );
     `;
 }
@@ -42,7 +42,7 @@ export async function dropUsersTable() {
 // ADD ENTRIES
 export async function addTurtle() {
     const turtle_id = await db.insert(turtles)
-        .values({votes: 0, is_winner: false, position: 0, velocity: 0})
+        .values({votes: 0, is_winner: false, position: 0, velocity: (Math.random() * 2).toFixed(6)})
         .returning({turtle_id: turtles.turtle_id});
     return turtle_id;
 }
@@ -56,7 +56,11 @@ export async function addUser(displayName) {
 
 // DELETE ENTRIES
 export async function deleteUser(userId) {
-    db.delete(users).where(eq(users.user_id, userId));
+    await db.delete(users).where(eq(users.user_id, userId));
+}
+
+export async function deleteTurtle(turtleId) {
+    await db.delete(turtles).where(eq(turtles.turtle_id, turtleId));
 }
 
 // RESET COLUMNS

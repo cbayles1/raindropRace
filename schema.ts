@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, integer, boolean} from "drizzle-orm/pg-core";
+import { pgTable, serial, varchar, integer, boolean, real} from "drizzle-orm/pg-core";
 
 export const users = pgTable('users', {
     user_id: serial('user_id').primaryKey(),
@@ -12,6 +12,6 @@ export const turtles = pgTable('turtles', {
     turtle_id: serial('turtle_id').primaryKey(),
     votes: integer('votes').notNull(),
     is_winner: boolean('is_winner').notNull(),
-    position: integer('position').notNull(),
-    velocity: integer('velocity').notNull()
+    position: real('position').notNull(),
+    velocity: real('velocity').notNull()
 });
