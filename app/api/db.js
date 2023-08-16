@@ -25,8 +25,7 @@ export async function createUsersTable() {
         "user_id" SERIAL PRIMARY KEY,
         "turtle_id" INT NULL,
         "wins" INT NOT NULL,
-        "display_name" VARCHAR(20) NOT NULL UNIQUE,
-        "has_voted" BOOL NOT NULL
+        "display_name" VARCHAR(20) NOT NULL UNIQUE
       );
     `;
 }
@@ -56,11 +55,50 @@ export async function addUser(displayName) {
 
 // DELETE ENTRIES
 export async function deleteUser(userId) {
+    const turtleId = await getTurtleIdFromUser(userId);
+    const turtleVotes = await getTurtleVotes(turtleId);
+    await db.update(turtles).set({votes: turtleVotes - 1}).where(eq(turtles.turtle_id, turtleId));
     await db.delete(users).where(eq(users.user_id, userId));
 }
 
 export async function deleteTurtle(turtleId) {
     await db.delete(turtles).where(eq(turtles.turtle_id, turtleId));
+    await db.update(users).set({turtle_id: null}).where(eq(users.turtle_id, turtleId));
+}
+
+// UPDATE DATA
+export async function vote(userId, turtleId) {
+    const prevTurtleId = await getTurtleIdFromUser(userId);
+    if (prevTurtleId != null) {
+        throw "You already voted!";
+    } else {
+        const turtleVotes = await getTurtleVotes(turtleId);
+        await db.update(turtles).set({votes: (turtleVotes + 1)}).where(eq(turtles.turtle_id, turtleId));
+        await db.update(users).set({turtle_id: turtleId}).where(eq(users.user_id, userId));
+    }
+}
+
+// HELPER FUNCTIONS
+async function getTurtleVotes(turtleId) {
+    const result = await db.select({
+        votes: turtles.votes
+        }).from(turtles).where(eq(turtles.turtle_id, turtleId));
+    try {
+        return result[0].votes;
+    } catch {
+        throw "That turtle does not exist.";
+    }
+}
+
+async function getTurtleIdFromUser(userId) {
+    const result = await db.select({
+        id: users.turtle_id
+        }).from(users).where(eq(users.user_id, userId));
+    try {
+        return result[0].id;
+    } catch {
+        throw "That user does not exist.";
+    }
 }
 
 // RESET COLUMNS
@@ -75,37 +113,4 @@ export async function deleteTurtle(turtleId) {
     .then((result) => {
         console.log(result[0]);
     });
-}
-
-// POST DATA
-export async function vote(user_id, turtle_id) {
-    if (userHasVoted(user_id)) {
-        throw "You already voted!";
-    } else {
-        await sql`
-            UPDATE public.users
-            SET turtle_id = ${turtle_id}, has_voted = ${true}
-            WHERE user_id = ${user_id};
-        `;
-        await sql`
-            UPDATE public.turtles
-            SET votes = votes + 1
-            WHERE turtle_id = ${turtle_id};
-        `;
-    //}
-}
-
-// OTHER FUNCTIONS
-export async function userHasVoted(userId) { // TODO: NOT WORKING RIGHT, NOT USED FOR NOW
-    sql`
-        SELECT has_voted FROM public.users
-        WHERE user_id = ${userId};
-    `.then((result) => {
-        if (result[0]['has_voted'] == true) {
-            return true;
-        } else {
-            return false;
-        }
-    });
-    
 }*/
