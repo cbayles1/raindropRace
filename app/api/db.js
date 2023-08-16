@@ -1,6 +1,6 @@
 import { neon, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { users, raindrops } from '../../schema.ts';
+import { users, turtles } from '../../schema.ts';
 import { eq } from "drizzle-orm";
 
 neonConfig.fetchConnectionCache = true;
@@ -8,10 +8,10 @@ const sql = neon(process.env.DATABASE_URL);
 const db = drizzle(sql);
 
 // CREATE TABLES
-/*export async function createRaindropTable() {
+/*export async function createTurtleTable() {
     await sql`
-        CREATE TABLE public.raindrops (
-            raindrop_id SERIAL PRIMARY KEY,
+        CREATE TABLE public.turtles (
+            turtle_id SERIAL PRIMARY KEY,
             votes INT NOT NULL,
             is_winner BOOL NOT NULL,
             position INT NOT NULL,
@@ -23,7 +23,7 @@ export async function createUsersTable() {
     await sql`
         CREATE TABLE public.users(
         "user_id" SERIAL PRIMARY KEY,
-        "raindrop_id" INT NULL,
+        "turtle_id" INT NULL,
         "wins" INT NOT NULL,
         "display_name" VARCHAR(20) NOT NULL UNIQUE,
         "has_voted" BOOL NOT NULL
@@ -32,19 +32,19 @@ export async function createUsersTable() {
 }
 
 // DROP TABLES
-export async function dropRaindropTable() {
-    await sql`DROP TABLE public.raindrops`;
+export async function dropTurtleTable() {
+    await sql`DROP TABLE public.turtles`;
 }
 export async function dropUsersTable() {
     await sql`DROP TABLE public.users`;
 }*/
 
 // ADD ENTRIES
-export async function addRaindrop() {
-    const raindrop_id = await db.insert(raindrops)
+export async function addTurtle() {
+    const turtle_id = await db.insert(turtles)
         .values({votes: 0, is_winner: false, position: 0, velocity: 0})
-        .returning({raindrop_id: raindrops.raindrop_id});
-    return raindrop_id;
+        .returning({turtle_id: turtles.turtle_id});
+    return turtle_id;
 }
 
 export async function addUser(displayName) {
@@ -63,10 +63,10 @@ export async function deleteUser(userId) {
 
 
 // GET DATA
-/*export async function getRaindropPublicData(raindrop_id) {
+/*export async function getTurtlePublicData(turtle_id) {
     await sql`
-        SELECT votes, is_winner, position FROM public.raindrops
-        WHERE raindrop_id = ${raindrop_id};
+        SELECT votes, is_winner, position FROM public.turtles
+        WHERE turtle_id = ${turtle_id};
     `
     .then((result) => {
         console.log(result[0]);
@@ -74,19 +74,19 @@ export async function deleteUser(userId) {
 }
 
 // POST DATA
-export async function vote(user_id, raindrop_id) {
+export async function vote(user_id, turtle_id) {
     if (userHasVoted(user_id)) {
         throw "You already voted!";
     } else {
         await sql`
             UPDATE public.users
-            SET raindrop_id = ${raindrop_id}, has_voted = ${true}
+            SET turtle_id = ${turtle_id}, has_voted = ${true}
             WHERE user_id = ${user_id};
         `;
         await sql`
-            UPDATE public.raindrops
+            UPDATE public.turtles
             SET votes = votes + 1
-            WHERE raindrop_id = ${raindrop_id};
+            WHERE turtle_id = ${turtle_id};
         `;
     //}
 }
