@@ -41,17 +41,17 @@ export async function dropUsersTable() {
 
 // ADD ENTRIES
 export async function addTurtle(name) {
-    const turtle_id = await db.insert(turtles)
+    const result = await db.insert(turtles)
         .values({name: name, votes: 0, is_winner: false, position: 0, velocity: (Math.random() * 2).toFixed(6)})
         .returning({turtle_id: turtles.turtle_id});
-    return turtle_id;
+    return result[0].turtle_id;
 }
 
 export async function addUser(name) {
-    const user_id = await db.insert(users)
+    const result = await db.insert(users)
         .values({name: name, wins: 0, has_voted: false})
         .returning({user_id: users.user_id});
-    return user_id;
+    return result[0].user_id;
 }
 
 // DELETE ENTRIES
