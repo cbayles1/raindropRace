@@ -12,6 +12,7 @@ const db = drizzle(sql);
     await sql`
         CREATE TABLE public.turtles (
             turtle_id SERIAL PRIMARY KEY,
+            name VARCHAR(20) NOT NULL UNIQUE
             votes INT NOT NULL,
             is_winner BOOL NOT NULL,
             position REAL NOT NULL,
@@ -39,9 +40,9 @@ export async function dropUsersTable() {
 }*/
 
 // ADD ENTRIES
-export async function addTurtle() {
+export async function addTurtle(name) {
     const turtle_id = await db.insert(turtles)
-        .values({votes: 0, is_winner: false, position: 0, velocity: (Math.random() * 2).toFixed(6)})
+        .values({name: name, votes: 0, is_winner: false, position: 0, velocity: (Math.random() * 2).toFixed(6)})
         .returning({turtle_id: turtles.turtle_id});
     return turtle_id;
 }
@@ -81,6 +82,7 @@ export async function vote(userId, turtleId) {
 // GET DATA
 export async function getTurtlePublicData(turtleId) {
     const result = await db.select({
+        name: turtles.name,
         votes: turtles.votes,
         isWinner: turtles.is_winner,
         position: turtles.position
@@ -94,6 +96,7 @@ export async function getTurtlePublicData(turtleId) {
 
 export async function getAllTurtlesPublicData() {
     const result = await db.select({
+        name: turtles.name,
         votes: turtles.votes,
         isWinner: turtles.is_winner,
         position: turtles.position

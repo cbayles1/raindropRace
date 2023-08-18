@@ -9,6 +9,7 @@ export const users = pgTable('users', {
 
 export const turtles = pgTable('turtles', {
     turtle_id: serial('turtle_id').primaryKey(),
+    name: varchar('name', {length: 20}).notNull().unique(),
     votes: integer('votes').notNull(),
     is_winner: boolean('is_winner').notNull(),
     position: real('position').notNull(),
