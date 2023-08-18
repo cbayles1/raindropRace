@@ -25,7 +25,7 @@ export async function createUsersTable() {
         "user_id" SERIAL PRIMARY KEY,
         "turtle_id" INT NULL,
         "wins" INT NOT NULL,
-        "display_name" VARCHAR(20) NOT NULL UNIQUE
+        "name" VARCHAR(20) NOT NULL UNIQUE
       );
     `;
 }
@@ -46,9 +46,9 @@ export async function addTurtle() {
     return turtle_id;
 }
 
-export async function addUser(displayName) {
+export async function addUser(name) {
     const user_id = await db.insert(users)
-        .values({display_name: displayName, wins: 0, has_voted: false})
+        .values({name: name, wins: 0, has_voted: false})
         .returning({user_id: users.user_id});
     return user_id;
 }
