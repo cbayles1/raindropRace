@@ -79,7 +79,7 @@ export async function vote(userId, turtleId) {
 }
 
 // GET DATA
-export async function getTurtlePublicData(turtleId) {  // NOT WORKING YET
+export async function getTurtlePublicData(turtleId) {
     const result = await db.select({
         votes: turtles.votes,
         isWinner: turtles.is_winner,
@@ -92,7 +92,7 @@ export async function getTurtlePublicData(turtleId) {  // NOT WORKING YET
     }
 }
 
-export async function getAllTurtlesPublicData() {  // NOT WORKING YET
+export async function getAllTurtlesPublicData() {
     const result = await db.select({
         votes: turtles.votes,
         isWinner: turtles.is_winner,
