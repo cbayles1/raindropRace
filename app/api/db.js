@@ -40,7 +40,7 @@ export async function dropUsersTable() {
 }*/
 
 // ADD ENTRIES
-export async function addTurtle(name) {
+async function addTurtle(name) {
     const result = await db.insert(turtles)
         .values({name: name, votes: 0, is_winner: false, position: 0, velocity: (Math.random() * 2).toFixed(6)})
         .returning({turtle_id: turtles.turtle_id});
@@ -104,7 +104,7 @@ export async function getAllTurtlesPublicData() {
     try {
         return result;
     } catch {
-        throw "There are no turtles right now.";
+        throw "There was trouble getting the turtles' data.";
     }
 }
 
@@ -130,4 +130,15 @@ async function getTurtleIdFromUser(userId) {
     }
 }
 
-// RESET COLUMNS
+// BROAD GAME SCOPE
+export async function startNewRace() {
+    const turtleNames = ["Bubbles", "Goldie", "Mikey", "Raph", "Leo", "Donnie", "Bugs", "Sonic", "Sarge", "Speedy Gonzales", "Koopa", "Yertle", "Oogway", "Molasses", "Sheldon", "Shelly", "Humphrey", "Henry", "George"];
+    turtleNames.sort(() => Math.random() - 0.5);
+    const pickedNames = turtleNames.slice(0, 5);
+
+    await db.update(users).set({turtle_id: null});
+    await db.delete(turtles);
+    const arr = pickedNames.map(async (name) => await addTurtle(name));
+    const turtleIds = await Promise.all(arr);
+    return turtleIds;
+}
