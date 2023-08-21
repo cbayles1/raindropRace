@@ -79,6 +79,13 @@ export async function vote(userId, turtleId) {
     }
 }
 
+async function updateTurtlePosAndVel(turtleId, pos, vel) {
+    await db.update(turtles).set({
+        position: pos,
+        velocity: vel,
+    }).where(eq(turtles.turtle_id, turtleId));
+}
+
 // GET DATA
 export async function getTurtlePublicData(turtleId) {
     const result = await db.select({
@@ -119,6 +126,18 @@ async function getTurtleVotes(turtleId) {
     }
 }
 
+async function getAllTurtlesPosAndVel() {
+    const result = await db.select({
+        pos: turtles.position,
+        vel: turtles.velocity,
+    }).from(turtles);
+    try {
+        return result;
+    } catch {
+        throw "Position and velocity could not be found.";
+    }
+}
+
 async function getTurtleIdFromUser(userId) {
     const result = await db.select({
         id: users.turtle_id
@@ -141,4 +160,28 @@ export async function startNewRace() {
     const arr = pickedNames.map(async (name) => await addTurtle(name));
     const turtleIds = await Promise.all(arr);
     return turtleIds;
+}
+
+export async function resetPosAndVel() {
+    db.update(turtles).set({
+        position: 0,
+        velocity: 0
+    });
+}
+
+export async function moveAllTurtles() {
+    let allTurtles = await db.select().from(turtles);
+    let newPos = [];
+    allTurtles.map((turtle) => {
+        turtle.position += turtle.velocity;
+        turtle.position = turtle.position.toFixed(6);
+        
+        turtle.velocity += Math.random() * 0.05;
+        turtle.velocity = turtle.velocity.toFixed(6);
+
+        updateTurtlePosAndVel(turtle.turtle_id, turtle.position, turtle.velocity);
+        newPos.push(turtle.position);
+    });
+
+    return newPos;
 }
