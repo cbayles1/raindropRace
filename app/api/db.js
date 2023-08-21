@@ -1,11 +1,13 @@
 import { neon, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { users, turtles } from '../../schema.ts';
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 neonConfig.fetchConnectionCache = true;
-const sql = neon(process.env.DATABASE_URL);
-const db = drizzle(sql);
+const neonConnection = neon(process.env.DATABASE_URL);
+const db = drizzle(neonConnection);
+
+const FINISH_LINE = 100;
 
 // CREATE TABLES
 /*export async function createTurtleTable() {
@@ -79,11 +81,11 @@ export async function vote(userId, turtleId) {
     }
 }
 
-async function updateTurtlePosAndVel(turtleId, pos, vel) {
+async function updateTurtlePosAndVel(turtle) {
     await db.update(turtles).set({
-        position: pos,
-        velocity: vel,
-    }).where(eq(turtles.turtle_id, turtleId));
+        position: turtle.position,
+        velocity: turtle.velocity,
+    }).where(eq(turtles.turtle_id, turtle.turtle_id));
 }
 
 // GET DATA
@@ -162,26 +164,35 @@ export async function startNewRace() {
     return turtleIds;
 }
 
-export async function resetPosAndVel() {
-    db.update(turtles).set({
-        position: 0,
-        velocity: 0
-    });
-}
-
 export async function moveAllTurtles() {
     let allTurtles = await db.select().from(turtles);
     let newPos = [];
-    allTurtles.map((turtle) => {
-        turtle.position += turtle.velocity;
-        turtle.position = turtle.position.toFixed(6);
-        
-        turtle.velocity += Math.random() * 0.05;
-        turtle.velocity = turtle.velocity.toFixed(6);
+    let winningTurtleId = null;
 
-        updateTurtlePosAndVel(turtle.turtle_id, turtle.position, turtle.velocity);
-        newPos.push(turtle.position);
-    });
+    for (let i = 0; i < 5; i++) { // CHANGE 5
+        allTurtles[i].position += allTurtles[i].velocity;
+        allTurtles[i].position = allTurtles[i].position.toFixed(6);
+        
+        let randomSign = Math.round(Math.random()) * 2 - 1;
+        allTurtles[i].velocity += Math.random() * 4.001 * randomSign;
+        allTurtles[i].velocity = allTurtles[i].velocity.toFixed(6);
+        if (allTurtles[i].velocity < 0) {
+            allTurtles[i].velocity = 0.0;
+        }
+
+        updateTurtlePosAndVel(allTurtles[i]);
+        newPos.push(allTurtles[i].position);
+        
+        if (allTurtles[i].position >= 100 && !winningTurtleId) {
+            winningTurtleId = allTurtles[i].turtle_id;
+        }
+    }
+    
+    if (winningTurtleId) {
+        await db.update(turtles).set({is_winner: true}).where(eq(turtles.turtle_id, winningTurtleId));
+        await db.update(users).set({wins: sql`${users.wins} + 1`}).where(eq(users.turtle_id, winningTurtleId));
+        await startNewRace();
+    }
 
     return newPos;
 }
