@@ -3,8 +3,8 @@ const db = require('../db.js');
 
 export async function POST() {
     try {
-        const allTurtlesPos = await db.moveAllTurtles();
-        return NextResponse.json(allTurtlesPos);
+        await db.moveAllTurtles();
+        return NextResponse.json(db.getAllTurtlesDataNoVel());
     } catch {
         return "The turtles could not be moved.";
     }
