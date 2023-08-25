@@ -36,12 +36,13 @@ export async function deleteUser(userId) {
 export async function vote(userId, turtleId) {
     const prevTurtleId = await getTurtleIdFromUser(userId);
     if (prevTurtleId != null) {
-        throw "You already voted!";
-    } else {
-        const turtleVotes = await getTurtleVotes(turtleId);
-        await db.update(turtles).set({votes: (turtleVotes + 1)}).where(eq(turtles.turtle_id, turtleId));
-        await db.update(users).set({turtle_id: turtleId}).where(eq(users.user_id, userId));
+        //throw "You already voted!";
+        let turtleVotes = await getTurtleVotes(prevTurtleId);
+        await db.update(turtles).set({votes: (turtleVotes - 1)}).where(eq(turtles.turtle_id, prevTurtleId));
     }
+    let turtleVotes = await getTurtleVotes(turtleId);
+    await db.update(turtles).set({votes: (turtleVotes + 1)}).where(eq(turtles.turtle_id, turtleId));
+    await db.update(users).set({turtle_id: turtleId}).where(eq(users.user_id, userId));
 }
 
 async function updateTurtlePosAndVel(turtle) {

@@ -12,7 +12,8 @@ function Turtle({turtleData}) {
     winnerDisplay = "true";
   }
 
-  return (<div>
+  return (
+  <div>
     <h3>{turtleData.name}</h3>
     <ul>
       <li>Votes: {turtleData.votes}</li>
