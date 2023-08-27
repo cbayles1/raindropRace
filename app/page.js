@@ -5,7 +5,7 @@ import VoteBox from './(components)/VoteBox';
 export default async function Page() {
   const turtles = await getTurtles();
   return (
-    <div id="wrapper">
+    <div id="wrapper" className='m-2'>
       <RaceBox turtles={turtles}/>
       <VoteBox turtles={turtles}/>
     </div>
@@ -13,6 +13,6 @@ export default async function Page() {
 }
 
 async function getTurtles() {
-  const res = await fetch("http://localhost:3000/api/getAllTurtlesDataNoVel/");
+  const res = await fetch("http://localhost:3000/api/getAllTurtlesDataNoVel/", {cache: 'no-store'});
   return await res.json();
 }

@@ -2,7 +2,7 @@ import VoteOption from './VoteOption';
 
 export default function VoteBox({turtles}) {
     return (
-    <div id="wrapper">
+    <div className='w-full'>
       <div>
         <h3>Vote</h3>
         {
