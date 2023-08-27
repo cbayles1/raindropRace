@@ -1,7 +1,6 @@
 //import Image from 'next/image';
 import RaceBox from './(components)/RaceBox';
 import VoteBox from './(components)/VoteBox';
-import styles from './globals.scss';
 
 export default async function Page() {
   const turtles = await getTurtles();

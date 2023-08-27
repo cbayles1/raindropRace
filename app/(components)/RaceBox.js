@@ -1,11 +1,10 @@
 import TurtleLane from './TurtleLane';
-import styles from '../globals.scss';
 
 export default function RaceBox({turtles}) {
   return (
   <div>
     <div id="positionRuler">
-      <div className={styles.fred}>positionRuler</div>
+      <div className='text-xs'>positionRuler</div>
     </div>
 
     <div id="turtleLanes">

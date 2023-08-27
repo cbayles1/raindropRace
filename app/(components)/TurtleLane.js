@@ -1,5 +1,3 @@
-import styles from '../globals.scss';
-
 export default function TurtleLane({turtle}) {
     let winnerDisplay = "false";
     if (turtle.is_winner) {
@@ -8,7 +6,7 @@ export default function TurtleLane({turtle}) {
   
     return (
     <div>
-      <p className={styles.fred}>TurtleLane</p>
+      <p>TurtleLane</p>
     </div>
     );
   }
