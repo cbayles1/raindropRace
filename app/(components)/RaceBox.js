@@ -1,21 +1,20 @@
-'use client'
-import {Container} from 'react-bootstrap';
 import TurtleLane from './TurtleLane';
+import styles from '../globals.scss';
 
 export default function RaceBox({turtles}) {
   return (
   <div>
-    <Container id="positionRuler">
-      <p>positionRuler</p>
-    </Container>
+    <div id="positionRuler">
+      <div className={styles.fred}>positionRuler</div>
+    </div>
 
-    <Container id="turtleLanes">
+    <div id="turtleLanes">
     {
       turtles.map((turtle) => {
         return <TurtleLane turtle={turtle} key={turtle.id}></TurtleLane>;
       })
     }
-    </Container>
+    </div>
   </div>
   )
 }

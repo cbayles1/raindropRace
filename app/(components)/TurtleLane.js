@@ -1,5 +1,4 @@
-'use client'
-import {Container} from 'react-bootstrap';
+import styles from '../globals.scss';
 
 export default function TurtleLane({turtle}) {
     let winnerDisplay = "false";
@@ -8,8 +7,8 @@ export default function TurtleLane({turtle}) {
     }
   
     return (
-    <Container>
-      <p>TurtleLane</p>
-    </Container>
+    <div>
+      <p className={styles.fred}>TurtleLane</p>
+    </div>
     );
   }
