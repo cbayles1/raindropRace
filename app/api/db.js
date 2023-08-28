@@ -92,7 +92,7 @@ export async function getAllTurtlesDataNoVel() {
 
 // BROAD GAME SCOPE
 export async function startNewRace() {
-    const turtleNames = ["Bubbles", "Goldie", "Mikey", "Raph", "Leo", "Donnie", "Bugs", "Sonic", "Sarge", "Speedy Gonzales", "Koopa", "Yertle", "Oogway", "Molasses", "Sheldon", "Shelly", "Humphrey", "Henry", "George"];
+    const turtleNames = ["Bubbles", "Goldie", "Mikey", "Raph", "Leo", "Donnie", "Bugs", "Sonic", "Sarge", "Speedy", "Koopa", "Yertle", "Oogway", "Molasses", "Sheldon", "Shelly", "Humphrey", "Henry", "George"];
     turtleNames.sort(() => Math.random() - 0.5);
     const pickedNames = turtleNames.slice(0, 5);
 
@@ -113,7 +113,7 @@ export async function moveAllTurtles() {
         turtle.position = turtle.position.toFixed(6);
         
         let randomSign = Math.round(Math.random()) * 2 - 1;
-        turtle.velocity += Math.random() * 4.001 * randomSign;
+        turtle.velocity += Math.random() * 8 * randomSign;
         turtle.velocity = turtle.velocity.toFixed(6);
         if (turtle.velocity < 0) {
             turtle.velocity = 0.0;
