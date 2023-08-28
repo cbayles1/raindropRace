@@ -11,7 +11,7 @@ export default function TurtleLane({turtle}) {
     const ref = useRef(null);
 
     useLayoutEffect(() => {
-      setLaneWidth(ref.current.clientWidth);
+      setLaneWidth(ref.current.clientWidth); //TODO: SUBTRACT FINISH LINE
     });
   
     return (
@@ -20,7 +20,7 @@ export default function TurtleLane({turtle}) {
         <span id="name" className="px-0.5 py-0 text-oat m-auto font-mono text-sm -rotate-45">{turtle.name}</span>
       </span>
       <span ref={ref} id="lane" className="bg-midnight ml-auto w-full">
-          <div id="turtle" className="aspect-square h-12 m-2 bg-oat" style={{transform: `translateX(${0.01 * turtle.position * laneWidth}px)`}}></div>
+        <div id="turtle" className="aspect-square h-12 m-2 bg-oat" style={{transform: `translateX(${0.01 * turtle.position * laneWidth}px)`}}></div>
       </span>
     </span>
     );
