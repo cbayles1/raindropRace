@@ -1,6 +1,5 @@
 import RaceBox from './(components)/RaceBox';
 import VoteBox from './(components)/VoteBox';
-import Script from 'next/script';
 
 export default async function Page() {
   const turtles = await getTurtles();
