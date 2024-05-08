@@ -18,7 +18,7 @@ export default async function VoteBox({turtles}) {
 
   return (
     <div className='w-full h-full mx-2 space-y-2 text-oat'>
-      {/*<h3 className='font-mono text-3xl p-4 text-center bg-nero mr-4'>Vote</h3>*/}
+      <h3 className='font-mono text-3xl p-4 text-center bg-nero mr-4'>Vote Below</h3>
       <VoteOptions turtles={turtles} turtlePicked={turtlePicked}></VoteOptions>
     </div>
   );

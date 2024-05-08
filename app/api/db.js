@@ -105,7 +105,7 @@ export async function getAllTurtlesDataNoVel() {
 }
 
 // BROAD GAME SCOPE
-export async function startNewRace() {
+async function startNewRace() {
     const turtleNames = ["Bubbles", "Goldie", "Mikey", "Raph", "Leo", "Donnie", "Bugs", "Sonic", "Sarge", "Speedy", "Koopa", "Yertle", "Oogway", "Molasses", "Sheldon", "Shelly", "Humphrey", "Henry", "George"];
     turtleNames.sort(() => Math.random() - 0.5);
     const pickedNames = turtleNames.slice(0, 5);
@@ -148,6 +148,9 @@ export async function moveAllTurtles() {
         await db.update(users).set({wins: sql`${users.wins} + 1`}).where(eq(users.turtle_id, winningTurtleId));
         await startNewRace();
     }
+
+    //const data = await getAllTurtlesDataNoVel();
+    //return data;
 }
 
 export async function getWinners() {
