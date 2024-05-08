@@ -9,13 +9,12 @@ export default async function Page() {
   await moveTurtles();
 
   const cookieStore = cookies();
-  const username = cookieStore.get('username');
-  let winnerDisplay = cookieStore.get('winnerDisplay');
-  console.log(username);
+  const usernameCookie = cookieStore.get('username');
+  const winnerDisplayCookie = cookieStore.get('winnerDisplay');
 
   let lowerBox = <LoginBox></LoginBox>;
-  if (turtles && username && username.name.length > 0) {
-    if (winnerDisplay) {
+  if (turtles && usernameCookie && usernameCookie.value.length > 0) {
+    if (winnerDisplayCookie && winnerDisplayCookie.value) {
       lowerBox = <WinnerBox turtles={turtles}/>;
     } else {
       lowerBox = <VoteBox turtles={turtles}/>;
