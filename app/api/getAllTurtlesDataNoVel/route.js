@@ -5,7 +5,7 @@ export async function GET() {
     try {
         const data = await db.getAllTurtlesDataNoVel();
         return NextResponse.json(data);
-    } catch {
+    } catch(err) {
         return "There was trouble getting the turtles' data.";
     }
 }

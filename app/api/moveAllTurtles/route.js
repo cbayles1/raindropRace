@@ -5,7 +5,7 @@ export async function POST() {
     try {
         await db.moveAllTurtles();
         return NextResponse.json(db.getAllTurtlesDataNoVel());
-    } catch {
+    } catch(err) {
         return "The turtles could not be moved.";
     }
 }

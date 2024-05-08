@@ -8,7 +8,7 @@ export default function TurtleLane({turtle}) {
 
     useLayoutEffect(() => {
       setLaneWidth(ref.current.clientWidth); //TODO: SUBTRACT FINISH LINE
-    });
+    }, []);
   
     return (
     <span className="h-16 my-1 flex flex-cols-2 bg-terra">

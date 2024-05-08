@@ -5,7 +5,7 @@ export async function POST() {
     try {
         const turtles = await db.startNewRace();
         return NextResponse.json(turtles);
-    } catch {
+    } catch(err) {
         return "The race could not be started.";
     }
 }
