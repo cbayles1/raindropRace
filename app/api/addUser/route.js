@@ -5,8 +5,8 @@ export async function POST(request) {
     const req = await request.json();
     const name = req['username'];
     try {
-        const data = await db.addUser(name);
-        return NextResponse.json(name);
+        const userId = await db.addUser(name);
+        return NextResponse.json({'user_id': userId});
     } catch {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }

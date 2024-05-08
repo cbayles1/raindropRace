@@ -9,11 +9,11 @@ export default async function Page() {
   await moveTurtles();
 
   const cookieStore = cookies();
-  const usernameCookie = cookieStore.get('username');
+  const userIdCookie = cookieStore.get('user_id');
   const winnerDisplayCookie = cookieStore.get('winnerDisplay');
 
   let lowerBox = <LoginBox></LoginBox>;
-  if (turtles && usernameCookie && usernameCookie.value.length > 0) {
+  if (turtles && userIdCookie && userIdCookie.value) {
     if (winnerDisplayCookie && winnerDisplayCookie.value) {
       lowerBox = <WinnerBox turtles={turtles}/>;
     } else {
@@ -22,10 +22,10 @@ export default async function Page() {
   }
 
   return (
-    <div id="wrapper" className='m-2 space-y-4'>
+    <div id="wrapper" className='m-2 space-y-4 h-full'>
       <RaceBox turtles={turtles}/>
       {lowerBox}
-      <p id="disclaimer">These turtles do not like to move while watched. Please refresh the page for them to move.</p>
+      <p id="disclaimer" className='absolute bottom-4'>These turtles do not like to move while watched. Please refresh the page for them to move.</p>
     </div>
   );
 }

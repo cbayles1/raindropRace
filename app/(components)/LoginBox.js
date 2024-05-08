@@ -25,7 +25,8 @@ async function signup(formData) {
     if (res.status != 200) {
       console.log("That username already exists.");
     } else {
-      cookieStore.set('username', username);
+      const data = await res.json();
+      cookieStore.set('user_id', data.user_id);
       revalidatePath("/");
     }
   }

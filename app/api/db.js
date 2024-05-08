@@ -69,7 +69,7 @@ async function getTurtleVotes(turtleId) {
     }
 }
 
-async function getTurtleIdFromUser(userId) {
+export async function getTurtleIdFromUser(userId) {
     const result = await db.select({
         id: users.turtle_id
         }).from(users).where(eq(users.user_id, userId));
