@@ -26,10 +26,15 @@ export async function addUser(name) {
 
 // DELETE ENTRIES
 export async function deleteUser(userId) {
-    const turtleId = await getTurtleIdFromUser(userId);
-    const turtleVotes = await getTurtleVotes(turtleId);
-    await db.update(turtles).set({votes: turtleVotes - 1}).where(eq(turtles.turtle_id, turtleId));
-    await db.delete(users).where(eq(users.user_id, userId));
+    try {
+        const turtleId = await getTurtleIdFromUser(userId);
+        const turtleVotes = await getTurtleVotes(turtleId);
+        await db.update(turtles).set({votes: turtleVotes - 1}).where(eq(turtles.turtle_id, turtleId));
+    } catch {
+        console.log("User who never voted was deleted.");
+    } finally {
+        await db.delete(users).where(eq(users.user_id, userId));
+    }
 }
 
 // UPDATE DATA
@@ -105,7 +110,6 @@ export async function startNewRace() {
 
 export async function moveAllTurtles() {
     let allTurtles = await db.select().from(turtles);
-    //let newPos = new Map();
     let winningTurtleId = null;
 
     allTurtles.map((turtle) => {
@@ -120,7 +124,6 @@ export async function moveAllTurtles() {
         }
 
         updateTurtlePosAndVel(turtle);
-        //newPos.set(turtle.turtle_id, turtle.position);
 
         if (turtle.position >= 100 && !winningTurtleId) {
             winningTurtleId = turtle.turtle_id;
@@ -132,4 +135,15 @@ export async function moveAllTurtles() {
         await db.update(users).set({wins: sql`${users.wins} + 1`}).where(eq(users.turtle_id, winningTurtleId));
         await startNewRace();
     }
+}
+
+export async function getWinners() {
+    let allTurtles = await db.select().from(turtles);
+    const winners = [];
+    allTurtles.forEach((turtle) => {
+        if (turtle.is_winner) {
+            winners.push(turtle);
+        }
+    });
+    return winners;
 }

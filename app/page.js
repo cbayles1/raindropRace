@@ -1,14 +1,31 @@
 import RaceBox from './(components)/RaceBox';
 import VoteBox from './(components)/VoteBox';
+import LoginBox from './(components)/LoginBox';
+import WinnerBox from './(components)/WinnerBox';
+import {cookies} from 'next/headers';
 
 export default async function Page() {
   const turtles = await getTurtles();
   await moveTurtles();
 
+  const cookieStore = cookies();
+  const username = cookieStore.get('username');
+  let winnerDisplay = cookieStore.get('winnerDisplay');
+
+  let lowerBox = <LoginBox></LoginBox>;
+  if (turtles && username && username.length > 0) {
+    if (winnerDisplay) {
+      lowerBox = <WinnerBox turtles={turtles}/>;
+    } else {
+      lowerBox = <VoteBox turtles={turtles}/>;
+    }
+  }
+
   return (
-    <div id="wrapper" className='m-2'>
+    <div id="wrapper" className='m-2 space-y-4'>
       <RaceBox turtles={turtles}/>
-      <VoteBox turtles={turtles}/>
+      {lowerBox}
+      <p id="disclaimer">These turtles do not like to move while watched. Please refresh the page for them to move.</p>
     </div>
   );
 }
@@ -19,7 +36,5 @@ async function getTurtles() {
 }
 
 async function moveTurtles() {
-  const res = await fetch("http://localhost:3000/api/moveAllTurtles/", {
-    method: 'POST'
-  });
+  const res = await fetch("http://localhost:3000/api/moveAllTurtles/", {method: 'POST'});
 }

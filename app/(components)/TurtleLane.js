@@ -2,10 +2,6 @@
 import {useState, useLayoutEffect, useRef} from 'react';
 
 export default function TurtleLane({turtle}) {
-    let winnerDisplay = "false";
-    if (turtle.is_winner) {
-      winnerDisplay = "true";
-    }
 
     const [laneWidth, setLaneWidth] = useState(0);
     const ref = useRef(null);
