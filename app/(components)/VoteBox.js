@@ -8,7 +8,7 @@ export default async function VoteBox({turtles}) {
   let turtlePicked = null;
   if (userIdCookie && userIdCookie.value) {
     try {
-      const res = await fetch(`http://localhost:3000/api/getTurtleIdFromUser?userid=${userIdCookie.value}`);
+      const res = await fetch(`http://localhost:3000/api/getTurtleIdFromUser?userid=${userIdCookie.value}`, {cache: 'no-store'});
       const data = await res.json();
       turtlePicked = data;
     } catch (err) {
