@@ -11,9 +11,10 @@ export default async function Page() {
   const cookieStore = cookies();
   const username = cookieStore.get('username');
   let winnerDisplay = cookieStore.get('winnerDisplay');
+  console.log(username);
 
   let lowerBox = <LoginBox></LoginBox>;
-  if (turtles && username && username.length > 0) {
+  if (turtles && username && username.name.length > 0) {
     if (winnerDisplay) {
       lowerBox = <WinnerBox turtles={turtles}/>;
     } else {

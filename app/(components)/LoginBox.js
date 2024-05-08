@@ -1,10 +1,7 @@
-//import {useState} from "react";
-//import {cookies} from 'next/headers';
+import {cookies} from 'next/headers';
 import { revalidatePath } from "next/cache";
 
 export default function LoginBox() {
-  //const cookieStore = cookies();
-  //const username = cookieStore.get('username');
 
   const nameLengthLimit = 20;
   
@@ -21,14 +18,15 @@ export default function LoginBox() {
 
 async function signup(formData) {
   'use server';
-  const username = formData.get("username");
+  const cookieStore = cookies();
+  const username = await formData.get("username");
   if (username.length > 0) {
     const res = await fetch("http://localhost:3000/api/addUser/", {method: 'POST', body: JSON.stringify({'username': username})});
     if (res.status != 200) {
       console.log("That username already exists.");
     } else {
-      //cookieStore.set('username', user);
-      //revalidatePath("/");
+      cookieStore.set('username', username);
+      revalidatePath("/");
     }
   }
 }

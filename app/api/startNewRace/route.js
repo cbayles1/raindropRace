@@ -6,6 +6,6 @@ export async function POST() {
         const turtles = await db.startNewRace();
         return NextResponse.json(turtles);
     } catch(err) {
-        return "The race could not be started.";
+        return NextResponse.json({error: "The race could not be started."}, {status: 500});
     }
 }

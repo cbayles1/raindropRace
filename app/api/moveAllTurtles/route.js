@@ -6,6 +6,6 @@ export async function POST() {
         await db.moveAllTurtles();
         return NextResponse.json(db.getAllTurtlesDataNoVel());
     } catch(err) {
-        return "The turtles could not be moved.";
+        return NextResponse.json({error: "The turtles could not be moved."}, {status: 500});
     }
 }
