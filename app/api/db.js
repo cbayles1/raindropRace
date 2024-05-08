@@ -9,6 +9,15 @@ const db = drizzle(neonConnection);
 
 const FINISH_LINE = 100;
 
+
+// TO RESTART IDs:
+// SQL:
+//     ALTER SEQUENCE users_user_id_seq RESTART WITH 1;
+//     DELETE from public.turtles;
+//     DELETE from public.users; // optional
+// JS:
+//     startNewRace();
+
 // ADD ENTRIES
 async function addTurtle(name) {
     const result = await db.insert(turtles)
@@ -111,6 +120,10 @@ export async function startNewRace() {
 export async function moveAllTurtles() {
     let allTurtles = await db.select().from(turtles);
     let winningTurtleId = null;
+
+    if (allTurtles.length <= 0) {
+        await startNewRace();
+    }
 
     allTurtles.map((turtle) => {
         turtle.position += turtle.velocity;
