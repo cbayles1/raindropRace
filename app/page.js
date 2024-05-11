@@ -25,11 +25,6 @@ export default async function Page() {
     <div id="wrapper" className='m-2 space-y-4 h-full'>
       <RaceBox turtles={turtles}/>
       {lowerBox}
-      <div id="disclaimers" className='bottom-4 absolute ml-2'>
-        <p id="refresh">These turtles do not like you watching them move. Please refresh the page so they keep going.</p>
-        <p id="noTakebacks">Once you have voted on a turtle, you cannot change your vote until the next race.</p>
-        <p id="fifty">Once any turtle has crossed the 50 inch line, you cannot vote for the remainder of the race.</p>
-      </div>
     </div>
   );
 }

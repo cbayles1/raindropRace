@@ -163,3 +163,14 @@ export async function getWinners() {
     });
     return winners;
 }
+
+export async function getUserWins(userId) {
+    const result = await db.select({
+        id: users.wins
+        }).from(users).where(eq(users.user_id, userId));
+    try {
+        return result[0].id;
+    } catch {
+        throw "That user does not exist.";
+    }
+}

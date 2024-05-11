@@ -6,7 +6,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
     const [userVote, setUserVote] = useState(turtlePicked);
     const [hoverColor, setHoverColor] = useState("midnight");
 
-    return(
+    return (
         <div id="voteOptions" className='grid grid-flow-col gap-4 mr-4'>
         {
             turtles.map((turtle) => {
