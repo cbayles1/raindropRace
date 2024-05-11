@@ -48,7 +48,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
         }, []);
 
         return (<button value={turtle.id.toString()} onClick={handleButtonClick} 
-          className={`grid grid-cols-1 py-4 bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-${hoverColor}`}>
+          className={`grid grid-cols-1 py-4 rounded-md bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-${hoverColor}`}>
             <div id="turtle" className="aspect-square h-12 md:h-18 mx-4 bg-oat"></div>
             <label htmlFor="turtle" className="text-oat font-mono">{turtle.name}</label>
         </button>);

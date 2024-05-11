@@ -81,7 +81,8 @@ async function getTurtleVotes(turtleId) {
 export async function getTurtleIdFromUser(userId) {
     const result = await db.select({
         id: users.turtle_id
-        }).from(users).where(eq(users.user_id, userId));
+    }).from(users).where(eq(users.user_id, userId));
+    
     try {
         return result[0].id;
     } catch {
@@ -102,6 +103,43 @@ export async function getAllTurtlesDataNoVel() {
     } catch {
         throw "There was trouble getting the turtles' data.";
     }
+}
+
+export async function getWinningTurtles() {
+    let allTurtles = await db.select().from(turtles);
+    const winners = [];
+    allTurtles.forEach((turtle) => {
+        if (turtle.is_winner) {
+            winners.push(turtle);
+        }
+    });
+    return winners;
+}
+
+export async function getUserWins(userId) {
+    const result = await db.select({
+        wins: users.wins
+    }).from(users).where(eq(users.user_id, userId));
+    
+    try {
+        return result[0].wins;
+    } catch {
+        throw "That user does not exist.";
+    }
+}
+
+export async function getLeaderboard(size) {
+    let result = await db.select({
+        id: users.user_id,
+        //name: users.name,
+        wins: users.wins
+    }).from(users).limit(size);
+
+    result.sort((a, b) => {
+        return b.wins - a.wins;
+    });
+
+    return result;
 }
 
 // BROAD GAME SCOPE
@@ -151,26 +189,4 @@ export async function moveAllTurtles() {
 
     //const data = await getAllTurtlesDataNoVel();
     //return data;
-}
-
-export async function getWinners() {
-    let allTurtles = await db.select().from(turtles);
-    const winners = [];
-    allTurtles.forEach((turtle) => {
-        if (turtle.is_winner) {
-            winners.push(turtle);
-        }
-    });
-    return winners;
-}
-
-export async function getUserWins(userId) {
-    const result = await db.select({
-        id: users.wins
-        }).from(users).where(eq(users.user_id, userId));
-    try {
-        return result[0].id;
-    } catch {
-        throw "That user does not exist.";
-    }
 }
