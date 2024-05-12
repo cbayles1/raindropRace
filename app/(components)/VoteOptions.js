@@ -1,22 +1,25 @@
 'use client';
 import { useEffect, useState } from "react";
 import { voteForTurtle } from "./voteForTurtle";
+import Image from 'next/image';
 
 export default function VoteOptions({turtles, turtlePicked}) {
     const [userVote, setUserVote] = useState(turtlePicked);
     const [hoverColor, setHoverColor] = useState("midnight");
+    
+    const turtleImg = <Image className='mx-4' src={'/turtle.png'} width={48} height={48}></Image>;
 
     return (
         <div id="voteOptions" className='grid grid-flow-col gap-4 mr-4'>
         {
             turtles.map((turtle) => {
-                return <VoteOption turtle={turtle} key={turtle.id}></VoteOption>;
+                return <VoteOption turtle={turtle} key={turtle.id} turtleImg={turtleImg}></VoteOption>;
             })
         }
         </div>
     );
 
-    function VoteOption({turtle}) {
+    function VoteOption({turtle, turtleImg}) {
         const [bgColor, setBgColor] = useState("alpine");
 
         function checkButtonColors(userVote) {
@@ -49,7 +52,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
 
         return (<button value={turtle.id.toString()} onClick={handleButtonClick} 
           className={`grid grid-cols-1 py-4 rounded-md bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-${hoverColor}`}>
-            <div id="turtle" className="aspect-square h-12 md:h-18 mx-4 bg-oat"></div>
+            {turtleImg}
             <label htmlFor="turtle" className="text-oat font-mono">{turtle.name}</label>
         </button>);
 

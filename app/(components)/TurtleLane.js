@@ -4,7 +4,8 @@ import Image from 'next/image';
 
 export default function TurtleLane({turtle}) {
 
-  const checkers = <Image className='grid place-self-end end-4 absolute' src={'./checkers.svg'} width={32} height={64}></Image>;
+  const turtleImg = <Image className='m-2' src={'/turtle.png'} width={48} height={48}></Image>;
+
   const [laneWidth, setLaneWidth] = useState(0);
   const ref = useRef(null);
 
@@ -18,8 +19,8 @@ export default function TurtleLane({turtle}) {
       <span id="name" className="px-0.5 py-0 text-oat m-auto font-mono text-sm -rotate-45">{turtle.name}</span>
     </span>
     <span ref={ref} id="lane" className="bg-midnight ml-auto w-full grid">
-      {checkers}
-      <div id="turtle" className="aspect-square h-12 m-2 bg-oat" style={{transform: `translateX(${0.01 * turtle.position * laneWidth}px)`}}></div>
+      <Image className='grid place-self-end end-4 absolute' src={'./checkers.svg'} width={32} height={64}></Image>
+      <div style={{transform: `translateX(${0.01 * turtle.position * laneWidth}px)`}}>{turtleImg}</div>
     </span>
   </span>
   );
