@@ -3,9 +3,8 @@ import {getUserSession} from '../lib/session';
 
 export async function voteForTurtle(turtleId) {
     const user = await getUserSession();
-    console.log(user.id);
-    console.log(turtleId);
-    const res = await fetch(`${process.env.MY_DOMAIN_NAME}/api/vote/`, {
+    console.log(process.env.DOMAIN_NAME);
+    const res = await fetch(`${process.env.DOMAIN_NAME}/api/vote/`, {
         method: 'POST',
         mode: 'cors',
         headers: {
