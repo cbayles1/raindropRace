@@ -9,7 +9,7 @@ export default async function Page() {
   let user;
 
   try {
-    user = await getUserSession({});
+    user = await getUserSession();
   } catch (err) {
     user = null;
   };

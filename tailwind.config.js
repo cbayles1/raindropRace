@@ -14,7 +14,6 @@ module.exports = {
       'oat': '#ffffff',
       'terra': '#1a6533',
       'alpine': '#4b7c69',
-      'midnight': '#152315',
       'asphalt': '#000000',
       'nero': '#152315',
       // 'oat': '#d9dad7',

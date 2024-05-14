@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function VoteOptions({turtles, turtlePicked}) {
     const [userVote, setUserVote] = useState(turtlePicked);
-    const [hoverColor, setHoverColor] = useState("midnight");
+    const [hoverColor, setHoverColor] = useState('nero');
 
     return (
         <div id="voteOptions" className='grid grid-flow-col gap-4 mr-4'>
@@ -20,7 +20,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
     function VoteOption({turtle}) {
         const [bgColor, setBgColor] = useState("alpine");
 
-        const turtleImg = <Image className='mx-4' src={`/turtles/${turtle.name.toLowerCase()}.png`} width={96} height={96}></Image>;
+        const turtleImg = <Image className='mx-4' alt={turtle.name} src={`/turtles/${turtle.name.toLowerCase()}.png`} width={96} height={96}></Image>;
 
         function checkButtonColors(userVote) {
             if (userVote) {
@@ -31,6 +31,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
                     setBgColor("alpine");
                 }
             } else {
+                setHoverColor("nero");
                 if (userVote == turtle.id) {
                     setBgColor("nero");
                 } else {
@@ -39,7 +40,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
             }
         }
 
-        if (turtle.position >= 50 && !userVote) { // if any turtle is past 50, user cannot vote on any turtle
+        if (turtle.position >= 50 && !userVote) { // if any turtle is past 50 and user hasn't voted, user cannot vote on any turtle
             setUserVote(-1);
         }
 

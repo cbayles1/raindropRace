@@ -160,15 +160,16 @@ export async function getUserByEmail(email) {
 }
 
 // BROAD GAME SCOPE
-async function startNewRace() {
+async function startNewRace(numTurtles=5) {
     const turtleNames = ["Bubbles", "Goldie", "Mikey", "Raph", "Leo", "Donnie", "Bugs", "Sonic", "Sarge", "Speedy", "Koopa", "Yertle", "Oogway", "Molasses", "Sheldon", "Shelly", "Humphrey", "Henry", "George"];
     turtleNames.sort(() => Math.random() - 0.5);
-    const pickedNames = turtleNames.slice(0, 5);
+    const pickedNames = turtleNames.slice(0, numTurtles);
 
     await db.update(users).set({turtle_id: null});
     await db.delete(turtles);
     const untitled = pickedNames.map(async (name) => await addTurtle(name));
-    const turtleIds = await Promise.all(untitled);
+    let turtleIds = await Promise.all(untitled);
+    //turtleIds = turtleIds.slice(0, numTurtles); // attempt at preventing the occasional doubled amount of turtles, didn't work
     return turtleIds;
 }
 
