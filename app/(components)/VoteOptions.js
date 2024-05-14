@@ -6,33 +6,33 @@ import Image from 'next/image';
 export default function VoteOptions({turtles, turtlePicked}) {
     const [userVote, setUserVote] = useState(turtlePicked);
     const [hoverColor, setHoverColor] = useState("midnight");
-    
-    const turtleImg = <Image className='mx-4' src={'/turtle.png'} width={48} height={48}></Image>;
 
     return (
         <div id="voteOptions" className='grid grid-flow-col gap-4 mr-4'>
         {
             turtles.map((turtle) => {
-                return <VoteOption turtle={turtle} key={turtle.id} turtleImg={turtleImg}></VoteOption>;
+                return <VoteOption turtle={turtle} key={turtle.id}></VoteOption>;
             })
         }
         </div>
     );
 
-    function VoteOption({turtle, turtleImg}) {
+    function VoteOption({turtle}) {
         const [bgColor, setBgColor] = useState("alpine");
+
+        const turtleImg = <Image className='mx-4' src={`/turtles/${turtle.name.toLowerCase()}.png`} width={96} height={96}></Image>;
 
         function checkButtonColors(userVote) {
             if (userVote) {
                 setHoverColor("alpine");
                 if (turtle.id == userVote) {
-                    setBgColor("midnight");
+                    setBgColor("nero");
                 } else {
                     setBgColor("alpine");
                 }
             } else {
                 if (userVote == turtle.id) {
-                    setBgColor("midnight");
+                    setBgColor("nero");
                 } else {
                     setBgColor("alpine");
                 }
@@ -51,7 +51,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
         }, []);
 
         return (<button value={turtle.id.toString()} onClick={handleButtonClick} 
-          className={`grid grid-cols-1 py-4 rounded-md bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-${hoverColor}`}>
+          className={`grid grid-cols-1 py-3 rounded-md bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-${hoverColor}`}>
             {turtleImg}
             <label htmlFor="turtle" className="text-oat font-mono">{turtle.name}</label>
         </button>);

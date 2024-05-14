@@ -3,8 +3,9 @@ import { pgTable, serial, varchar, integer, boolean, real} from "drizzle-orm/pg-
 export const users = pgTable('users', {
     user_id: serial('user_id').primaryKey(),
     turtle_id: integer('turtle_id'),
-    name: varchar('name', {length: 20}).notNull().unique(),
-    wins: integer('wins').notNull()
+    name: varchar('name', {length: 20}).notNull(),
+    wins: integer('wins').notNull(),
+    email: varchar('email').notNull()
 });
 
 export const turtles = pgTable('turtles', {

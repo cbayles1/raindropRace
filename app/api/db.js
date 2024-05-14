@@ -26,11 +26,11 @@ async function addTurtle(name) {
     return result[0].turtle_id;
 }
 
-export async function addUser(name) {
+export async function addUser(name, email) {
     const result = await db.insert(users)
-        .values({name: name, wins: 0, has_voted: false})
-        .returning({user_id: users.user_id});
-    return result[0].user_id;
+        .values({name: name, wins: 0, has_voted: false, email: email})
+        .returning({id: users.user_id});
+    return result[0];
 }
 
 // DELETE ENTRIES
@@ -66,6 +66,10 @@ async function updateTurtlePosAndVel(turtle) {
     }).where(eq(turtles.turtle_id, turtle.turtle_id));
 }
 
+async function setUserName(userId, name) {
+    await db.update(users).set({name: name}).where(eq(users.user_id, userId));
+}
+
 // GET DATA
 async function getTurtleVotes(turtleId) {
     const result = await db.select({
@@ -80,11 +84,11 @@ async function getTurtleVotes(turtleId) {
 
 export async function getTurtleIdFromUser(userId) {
     const result = await db.select({
-        id: users.turtle_id
+        turtle_id: users.turtle_id
     }).from(users).where(eq(users.user_id, userId));
     
     try {
-        return result[0].id;
+        return result[0].turtle_id;
     } catch {
         throw "That user does not exist.";
     }
@@ -131,7 +135,7 @@ export async function getUserWins(userId) {
 export async function getLeaderboard(size) {
     let result = await db.select({
         id: users.user_id,
-        //name: users.name,
+        name: users.name,
         wins: users.wins
     }).from(users).limit(size);
 
@@ -140,6 +144,19 @@ export async function getLeaderboard(size) {
     });
 
     return result;
+}
+
+export async function getUserByEmail(email) {
+    const result = await db.select({
+        id: users.user_id,
+        name: users.name
+    }).from(users).where(eq(users.email, email));
+    
+    try {
+        return result[0];
+    } catch {
+        throw "That user does not exist.";
+    }
 }
 
 // BROAD GAME SCOPE
@@ -189,4 +206,21 @@ export async function moveAllTurtles() {
 
     //const data = await getAllTurtlesDataNoVel();
     //return data;
+}
+
+export async function loginOrRegister(name, email) {
+    try {
+        let res = null;
+        res = await getUserByEmail(email);
+        if (res) {
+            if (res.name != name) {
+                res = await setUserName(userId, name);
+            }
+        } else {
+            res  = await addUser(name, email);
+        }
+        return res.id;
+    } catch (err) {
+        throw "Something went wrong during loginOrRegister.";
+    }
 }

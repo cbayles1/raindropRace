@@ -1,17 +1,21 @@
 import RaceBox from './(components)/RaceBox';
 import VoteBox from './(components)/VoteBox';
 import LoginBox from './(components)/LoginBox';
-import {cookies} from 'next/headers';
+import {getUserSession} from './lib/session';
 
 export default async function Page() {
   await moveTurtles();
   const turtles = await getTurtles();
+  let user;
 
-  const cookieStore = cookies();
-  const userIdCookie = cookieStore.get('user_id');
+  try {
+    user = await getUserSession({});
+  } catch (err) {
+    user = null;
+  };
 
   let lowerBox = <LoginBox></LoginBox>;
-  if (turtles && userIdCookie && userIdCookie.value) {
+  if (turtles && user) {
     lowerBox = <VoteBox turtles={turtles}/>;
   }
 
