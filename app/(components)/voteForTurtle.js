@@ -1,17 +1,11 @@
 'use server';
 import {getUserSession} from '../lib/session';
+import axios from 'axios';
 
 export async function voteForTurtle(turtleId) {
     const user = await getUserSession();
-    const res = await fetch(`${process.env.DOMAIN_NAME}/api/vote/`, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-        },
-        body: JSON.stringify({
-            'userId': user.id, 
-            'turtleId': turtleId
-        })
+    const res = await axios.post(`${process.env.DOMAIN_NAME}/api/vote/`, {
+        'userId': user.id, 
+        'turtleId': turtleId
     });
 }
