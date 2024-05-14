@@ -1,5 +1,5 @@
 import RaceBox from './(components)/RaceBox';
-import VoteBox from './(components)/VoteBox';
+import LowerBox from './(components)/LowerBox';
 import LoginBox from './(components)/LoginBox';
 import {getUserSession} from './lib/session';
 
@@ -16,7 +16,7 @@ export default async function Page() {
 
   let lowerBox = <LoginBox></LoginBox>;
   if (turtles && user) {
-    lowerBox = <VoteBox turtles={turtles}/>;
+    lowerBox = <LowerBox turtles={turtles}/>;
   }
 
   return (

@@ -1,7 +1,8 @@
 import VoteOptions from './VoteOptions';
 import {getUserSession} from '../lib/session';
+import Link from 'next/link';
 
-export default async function VoteBox({turtles}) {
+export default async function LowerBox({turtles}) {
   const user = await getUserSession();
 
   let turtlePicked = null;
@@ -61,18 +62,15 @@ export default async function VoteBox({turtles}) {
   }
 
   return (<>
-    <div className='w-full h-full mx-2 space-y-2 text-oat'>
-      <div className='flex justify-evenly items-center font-mono text-2xl p-3 text-center bg-nero mr-4'>
-        <div>Rank: #{rank}</div>
-        <div>Wins: {userWins}</div>
+    <div className='w-full h-full mx-2 space-y-6 text-oat'>
+      <div className='flex justify-around items-center font-mono text-md md:text-2xl p-3 text-justify bg-nero mr-4'>
+        <Link href="/help" className="p-3 rounded-md bg-alpine h-full place-items-center min-w-16 hover:bg-asphalt">Help</Link>
+        <div>#{rank} of {leaderboard.length} ({userWins} wins)</div>
+        <Link href="/leaderboard" className="p-3 rounded-md bg-alpine h-full place-items-center min-w-16 hover:bg-asphalt">Leaderboard</Link>
       </div>
       <VoteOptions turtles={turtles} turtlePicked={turtlePicked}></VoteOptions>
     </div>
-    <div id="disclaimers" className='bottom-2 absolute ml-2 text-sm'>
-      <p id="refresh">These turtles do not like you watching them move. Please refresh the page so they keep going.</p>
-      <p id="noTakebacks">Once you have voted on a turtle, you cannot change your vote until the next race.</p>
-      <p id="fifty">Once any turtle has made it halfway, you cannot vote for the remainder of the race.</p>
-    </div>
+    
     </>
   );
 }
