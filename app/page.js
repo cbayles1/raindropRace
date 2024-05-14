@@ -28,10 +28,10 @@ export default async function Page() {
 }
 
 async function getTurtles() {
-  const res = await fetch("http://localhost:3000/api/getAllTurtlesDataNoVel/", {cache: 'no-store'});
+  const res = await fetch(`${process.env.DOMAIN_NAME}/api/getAllTurtlesDataNoVel/`, {cache: 'no-store'});
   return await res.json();
 }
 
 async function moveTurtles() {
-  const res = await fetch("http://localhost:3000/api/moveAllTurtles/", {cache: 'no-store'});
+  const res = await fetch(`${process.env.DOMAIN_NAME}/api/moveAllTurtles/`, {cache: 'no-store'});
 }

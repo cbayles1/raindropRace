@@ -11,7 +11,7 @@ export default async function VoteBox({turtles}) {
   let x;
   if (user) {
     try {
-      const res = await fetch(`http://localhost:3000/api/getTurtleIdFromUser?userid=${user.id}`, {cache: 'no-store'});
+      const res = await fetch(`${process.env.DOMAIN_NAME}/api/getTurtleIdFromUser?userid=${user.id}`, {cache: 'no-store'});
       if (res.status != 200) {
         turtlePicked = null;
       } else {
@@ -23,7 +23,7 @@ export default async function VoteBox({turtles}) {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/getUserWins?userid=${user.id}`, {cache: 'no-store'});
+      const res = await fetch(`${process.env.DOMAIN_NAME}/api/getUserWins?userid=${user.id}`, {cache: 'no-store'});
       if (res.status != 200) {
         userWins = 0;
       } else {
@@ -35,7 +35,7 @@ export default async function VoteBox({turtles}) {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/getLeaderboard`, {cache: 'no-store'});
+      const res = await fetch(`${process.env.DOMAIN_NAME}/api/getLeaderboard`, {cache: 'no-store'});
       if (res.status != 200) {
         leaderboard = [];
         rank = -1;
