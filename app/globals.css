@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.leaderboardHeader {
+    padding: 1em;
+}
+
+.leaderboardCell {
+    padding: 1em;
+    background-color: #000000;
+}
+
+.leaderboardCellSelf {
+    padding: 1em;
+    background-color: #4b7c69;
+}

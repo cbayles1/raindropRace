@@ -143,6 +143,14 @@ export async function getLeaderboard(size) {
         return b.wins - a.wins;
     });
 
+    for (let i = 0, x = 0; i < result.length; i++) {
+        if (i > 0 && result[i].wins == result[i - 1].wins) {
+            x--;
+        }
+        result[i].rank = x + 1;
+        x++;
+    };
+
     return result;
 }
 

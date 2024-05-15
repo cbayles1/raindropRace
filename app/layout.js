@@ -8,7 +8,7 @@ export const metadata = {
   description: '',
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({children}) {
   return (
     <html lang="en" className='bg-terra'>
       <body className={inter.className}>{children}</body>
