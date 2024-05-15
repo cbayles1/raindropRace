@@ -5,7 +5,6 @@ import Image from 'next/image';
 
 export default function VoteOptions({turtles, turtlePicked}) {
     const [userVote, setUserVote] = useState(turtlePicked);
-    //const [hoverColor, setHoverColor] = useState('nero');
 
     return (
         <div id="voteOptions" className='grid grid-flow-col gap-4 mr-4 mt-4'>
@@ -51,8 +50,10 @@ export default function VoteOptions({turtles, turtlePicked}) {
         </button>);
 
         async function handleButtonClick(event) {
+            setDisabled(true);
+            setHoverColor('alpine');
+
             if (userVote) { // if a turtle was already picked, don't allow any more votes
-                //setHoverColor('alpine');
                 return;
             }
             const turtleIdStr = event.currentTarget.value;
