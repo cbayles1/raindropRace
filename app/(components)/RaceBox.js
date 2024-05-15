@@ -16,7 +16,7 @@ export default function RaceBox({turtles}) {
   <div id="raceBox" className="w-1px"> {/* don't know why setting the width to a set number makes everything work, but it does*/}
     <div id="positionRuler" className='grid grid-cols-11 justify-items-start ml-32 mb-1'>
       {markers.map((marker) => {
-        return <p className="text-oat" key={marker}>{marker}</p>
+        return <p className="text-oat" key={marker}>{marker} in</p>
       })}
     </div>
 

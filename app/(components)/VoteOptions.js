@@ -20,7 +20,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
     function VoteOption({turtle}) {
         const [bgColor, setBgColor] = useState("alpine");
 
-        const turtleImg = <Image className='mx-4' alt={turtle.name} src={`/turtles/${turtle.name.toLowerCase()}.png`} width={96} height={96}></Image>;
+        const turtleImg = <Image className='mx-4' alt={turtle.name} src={`/turtles/${turtle.name.toLowerCase()}.png`} width={60} height={60}></Image>;
 
         function checkButtonColors(userVote) {
             if (userVote) {
