@@ -7,16 +7,10 @@ neonConfig.fetchConnectionCache = true;
 const neonConnection = neon(process.env.DATABASE_URL);
 const db = drizzle(neonConnection);
 
-const FINISH_LINE = 100;
-
-
-// TO RESTART IDs:
-// SQL:
 //     ALTER SEQUENCE users_user_id_seq RESTART WITH 1;
+//     ALTER SEQUENCE raindrops_raindrop_id_seq RESTART WITH 1;
 //     DELETE from public.turtles;
-//     DELETE from public.users; // optional
-// JS:
-//     startNewRace();
+//     DELETE from public.users; // optional, dangerous
 
 // ADD ENTRIES
 async function addTurtle(name) {
