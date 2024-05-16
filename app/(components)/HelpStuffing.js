@@ -8,9 +8,9 @@ export default function LoginBox({showDesc=true}) {
             {desc}
             <p id="noTakebacks">Careful! Once you have voted on a turtle, you cannot change your vote until next race.</p>
             <p id="fifty">And once any turtle has made it 50 inches, you cannot vote for the remainder of the race.</p>
-            <p id="refresh">These turtles don't like being watched while they move. When users refresh the page, the turtles keep going.</p>
-            <p id="login">Apologies about the login page; it's safe I promise! I just can't make the warning disappear.</p>
-            <p id="login2">I also can't figure out how to remove the second login button yet. Working on it.</p>
+            <p id="refresh">These turtles don&apos;t like being watched while they move. When users refresh the page, the turtles keep going.</p>
+            <p id="login">Apologies about the login page; it&apos;s safe I promise! I just can&apos;t make the warning disappear.</p>
+            <p id="login2">I also can&apos;t figure out how to remove the second login button yet. Working on it.</p>
         </div>
     );
 }
