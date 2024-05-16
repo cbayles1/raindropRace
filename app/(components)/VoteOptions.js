@@ -44,7 +44,7 @@ export default function VoteOptions({turtles, turtlePicked}) {
         }, [userVote]);
 
         return (<button value={turtle.id.toString()} onClick={handleButtonClick} disabled={isDisabled}
-          className={`grid grid-cols-1 py-3 rounded-md bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-${hoverColor}`}>
+          className={`grid grid-cols-1 py-3 rounded-md bg-${bgColor} w-full h-full place-items-center space-y-4 min-w-16 hover:bg-nero`}>
             {turtleImg}
             <label htmlFor="turtle" className="text-oat font-mono">{turtle.name}</label>
         </button>);
